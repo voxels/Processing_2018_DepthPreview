@@ -8,12 +8,15 @@ import org.openkinect.processing.*;
 
 KinectController deviceController;
 
+boolean DEBUG = true;
+
 void setup() {
   size(1280, 480);
   setupKinect();
 }
 
 void draw() {
+  background(0);
   if( frameCount > 100 ) {
     deviceController.drawDepth(new PVector(), new PVector());        
   }
@@ -37,5 +40,10 @@ void keyPressed() {
     deviceController.maxDepth = constrain(deviceController.maxDepth+10, deviceController.minDepth, 2047);
   } else if (key =='x') {
     deviceController.maxDepth = constrain(deviceController.maxDepth-10, deviceController.minDepth, 2047);
+  }
+  
+  if( DEBUG ) {
+    println("TILT: " + deviceController.angle, 10, 20);
+    println("THRESHOLD: [" + deviceController.minDepth + ", " + deviceController.maxDepth + "]", 10, 36);    
   }
 }

@@ -13,7 +13,13 @@ class KinectController {
   Kinect kinect;
   float angle;
   
-  PImage depthImg;
+  boolean ir = false;
+  boolean colorDepth = false;
+  boolean mirror = false;
+  
+  PImage videoImage;
+  PImage depthImage;
+  int[] rawDepth;
 
   int kMaxBrightness = 255;
   int minBrightness = 0;
@@ -30,8 +36,11 @@ class KinectController {
   public KinectController(Kinect device) {
     kinect = device;
     kinect.initDepth();
+    kinect.initVideo();
+    kinect.enableIR(ir);
+    kinect.enableColorDepth(colorDepth);
     angle = kinect.getTilt();
-    depthImg = new PImage(kinect.width, kinect.height);
+    depthImage = new PImage(kinect.width, kinect.height);
     buildLookupTable();
   }
   
@@ -54,27 +63,18 @@ class KinectController {
     return min(rawDepth);
   }
   
+  void updateFrame() {
+    depthImage = kinect.getDepthImage();
+    videoImage = kinect.getVideoImage();
+    rawDepth = kinect.getRawDepth();    
+  }
+  
   void drawDepth(PVector origin, PVector size) {
-    // Draw the raw image
-    image(kinect.getDepthImage(), 0, 0);
-  
-    // Threshold the depth image
-    int[] rawDepth = kinect.getRawDepth();
-    for (int i=0; i < rawDepth.length; i++) {
-      if (rawDepth[i] >= minDepth && rawDepth[i] <= maxDepth) {
-        depthImg.pixels[i] = color(255);
-      } else {
-        depthImg.pixels[i] = color(0);
-      }
-    }
-  
-    // Draw the thresholded image
-    depthImg.updatePixels();
-    image(depthImg, kinect.width, 0);
-  
+    updateFrame();
+    image(depthImage, 0, 0);
+    image(videoImage, kinect.width, 0);
+    
     fill(0);
-    text("TILT: " + angle, 10, 20);
-    text("THRESHOLD: [" + minDepth + ", " + maxDepth + "]", 10, 36);
   }
   
   // These functions come from: http://graphics.stanford.edu/~mdfisher/Kinect.html
