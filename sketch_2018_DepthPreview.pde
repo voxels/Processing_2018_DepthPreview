@@ -22,9 +22,33 @@ void setup() {
 
 void draw() {
   background(0);
-  if( frameCount > 100 ) {
-    deviceController.drawDepth(new PVector(sliceOriginX,sliceOriginY), new PVector(sliceWidth,sliceHeight));        
+  PVector targetOrigin = currentTargetOrigin();
+  PVector targetSize = currentTargetSize();
+  
+  if( frameCount > 100 ) {    
+    deviceController.drawDepth(targetOrigin, targetSize);        
+    drawSliceTarget(targetOrigin, targetSize);
   }
+}
+
+void drawSliceTarget(PVector origin, PVector size) {
+  pushMatrix();
+  translate(deviceController.kinect.width + origin.x, origin.y);
+  stroke(255,0,0);
+  strokeWeight(deviceController.previewStrokeWeight / 2.0);  
+  noFill();
+  rect( -1 * deviceController.previewStrokeWeight / 2.0, -1 * deviceController.previewStrokeWeight / 2.0, 
+  size.x + deviceController.previewStrokeWeight / 2.0, deviceController.previewStrokeWeight / 2.0 + size.y);
+  noStroke();
+  popMatrix();
+}
+
+PVector currentTargetOrigin() {
+  return new PVector(sliceOriginX, sliceOriginY);
+}
+
+PVector currentTargetSize() {
+  return new PVector(sliceWidth, sliceHeight);
 }
 
 // Adjust the angle and the depth threshold min and max
