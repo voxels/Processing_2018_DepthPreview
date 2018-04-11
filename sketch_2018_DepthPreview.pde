@@ -55,7 +55,20 @@ PVector currentTargetSize() {
 // Adjust the angle and the depth threshold min and max
 void keyPressed() {
   if (key == CODED) {
-    
+    if( keyCode == UP) {
+      sliceOriginY--;
+      sliceOriginY = max(sliceOriginY, 0);
+    } else if (keyCode == DOWN) {
+      sliceOriginY++;
+      sliceOriginY = min(sliceOriginY, deviceController.kinect.height - sliceHeight);
+    } else if (keyCode == LEFT) {
+      sliceOriginX--;
+      sliceOriginX = max(sliceOriginX, 0);
+    } else if (keyCode == RIGHT) {
+      sliceOriginX++;
+      sliceOriginX = min(sliceOriginX, deviceController.kinect.width - sliceWidth);
+    }
+    println(keyCode + "\tOrigin: X:\t" + sliceOriginX + "\tY:\t" + sliceOriginY);    
   } else if (key == '=') {
     deviceController.tilt(1);
   } else if (key == '-') {
