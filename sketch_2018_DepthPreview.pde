@@ -8,10 +8,10 @@ import org.openkinect.processing.*;
 
 KinectController deviceController;
 
-int sliceOriginX = 100;
-int sliceOriginY = 100;
-int sliceWidth = 400;
-int sliceHeight = 400;
+int sliceOriginX = 200;
+int sliceOriginY = 250;
+int sliceWidth = 100;
+int sliceHeight = 100;
 
 boolean DEBUG = true;
 

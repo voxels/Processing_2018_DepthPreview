@@ -32,6 +32,8 @@ class KinectController {
   int currentThresholdMaxDepth = 2047;
   int currentThresholdMinDepth = 0;
   
+  int previewStrokeWeight = 40;
+
   // We'll use a lookup table so that we don't have to repeat the math over and over
   float[] depthLookUp = new float[2048];
 
@@ -83,7 +85,17 @@ class KinectController {
   }
   
   void drawSlice(RGBD slice) {
-    
+    PImage slicedImage = createImage(slice._width, slice._height, RGB);
+    slicedImage.pixels = slice.rawImage;
+    slicedImage.updatePixels();
+    pushMatrix();
+    translate(width/2 - slicedImage.width/2 - ceil(previewStrokeWeight/2), height/2 - slicedImage.height/2 - ceil(previewStrokeWeight/2));
+    stroke(255);
+    strokeWeight(previewStrokeWeight);
+    rect(0,0,slicedImage.width,slicedImage.height);
+    image(slicedImage, 0, 0);    
+    noStroke();
+    popMatrix();
   }
   
   // These functions come from: http://graphics.stanford.edu/~mdfisher/Kinect.html
