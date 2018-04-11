@@ -1,10 +1,18 @@
 class RGBD {
-  private int _width;
-  private int _height;
+  int _width;
+  int _height;
   private PImage _depthImage;
   
   int[] rawDepth;
   int[] rawImage;
+  
+  public RGBD(int[] depth, int[] image, PVector size) {
+    rawDepth = depth;
+    rawImage = image;
+    _width = floor(size.x);
+    _height = floor(size.y);
+    _depthImage = null;
+  }
   
   public RGBD(Kinect kinect, int w, int h) {
     _width = w;
@@ -22,6 +30,10 @@ class RGBD {
   };
   
   public PImage depthImage() {
-    return _depthImage;
+    if( _depthImage != null ) {
+      return _depthImage;      
+    } else {
+      return new PImage(); 
+    }
   }
 }

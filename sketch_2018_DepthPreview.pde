@@ -8,6 +8,11 @@ import org.openkinect.processing.*;
 
 KinectController deviceController;
 
+int sliceOriginX = 100;
+int sliceOriginY = 100;
+int sliceWidth = 400;
+int sliceHeight = 400;
+
 boolean DEBUG = true;
 
 void setup() {
@@ -18,7 +23,7 @@ void setup() {
 void draw() {
   background(0);
   if( frameCount > 100 ) {
-    deviceController.drawDepth(new PVector(), new PVector());        
+    deviceController.drawDepth(new PVector(sliceOriginX,sliceOriginY), new PVector(sliceWidth,sliceHeight));        
   }
 }
 

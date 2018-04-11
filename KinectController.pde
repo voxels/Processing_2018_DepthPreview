@@ -17,6 +17,7 @@ class KinectController {
   boolean colorDepth = true;
   boolean mirror = false;
   
+  Slicer slicer;
   RGBD depthData;
   PImage videoImage;
   PImage depthImage;
@@ -35,6 +36,7 @@ class KinectController {
   float[] depthLookUp = new float[2048];
 
   public KinectController(Kinect device) {
+    slicer = new Slicer();
     kinect = device;
     kinect.initDepth();
     kinect.initVideo();
@@ -68,10 +70,20 @@ class KinectController {
     return new RGBD(kinect, kinect.width, kinect.height);
   }
   
-  void drawDepth(PVector origin, PVector size) {
+  void drawDepth(PVector sliceOrigin, PVector sliceSize) {
     depthData = updateFrame();
+    RGBD slicedData = slicer.slice(depthData,sliceOrigin,sliceSize);
+    drawBackground();
+    drawSlice(slicedData);
+  }
+  
+  void drawBackground() {
     image(depthData.depthImage(), 0, 0);
-    image(depthData.videoImage(), kinect.width, 0);
+    image(depthData.videoImage(), kinect.width, 0);    
+  }
+  
+  void drawSlice(RGBD slice) {
+    
   }
   
   // These functions come from: http://graphics.stanford.edu/~mdfisher/Kinect.html
