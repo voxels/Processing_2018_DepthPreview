@@ -12,6 +12,7 @@ int sliceOriginX = 200;
 int sliceOriginY = 250;
 int sliceWidth = 100;
 int sliceHeight = 100;
+int kTranslateStep = 10;
 int kDiscardStep = 10;
 
 boolean DEBUG = true;
@@ -56,16 +57,16 @@ PVector currentTargetSize() {
 void keyPressed() {
   if (key == CODED) {
     if( keyCode == UP) {
-      sliceOriginY--;
+      sliceOriginY-=kTranslateStep;
       sliceOriginY = max(sliceOriginY, 0);
     } else if (keyCode == DOWN) {
-      sliceOriginY++;
+      sliceOriginY+=kTranslateStep;
       sliceOriginY = min(sliceOriginY, deviceController.kinect.height - sliceHeight);
     } else if (keyCode == LEFT) {
-      sliceOriginX--;
+      sliceOriginX-=kTranslateStep;
       sliceOriginX = max(sliceOriginX, 0);
     } else if (keyCode == RIGHT) {
-      sliceOriginX++;
+      sliceOriginX+=kTranslateStep;
       sliceOriginX = min(sliceOriginX, deviceController.kinect.width - sliceWidth);
     }
     println(keyCode + "\tOrigin: X:\t" + sliceOriginX + "\tY:\t" + sliceOriginY);    

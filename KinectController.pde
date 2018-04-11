@@ -99,7 +99,7 @@ class KinectController {
   
   void drawSlice(RGBD slice) {
     PImage slicedImage = createImage(slice._width, slice._height, RGB);
-    slicedImage.pixels = slice.rawImage;
+    slicedImage.pixels = slice.rawDepth;
     slicedImage.updatePixels();
     pushMatrix();
     translate(width/2 - slicedImage.width/2 - ceil(previewStrokeWeight/2), height/2 - slicedImage.height/2 - ceil(previewStrokeWeight/2));
