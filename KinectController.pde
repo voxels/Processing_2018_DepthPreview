@@ -14,7 +14,7 @@ class KinectController {
   float angle;
   
   boolean ir = false;
-  boolean colorDepth = false;
+  boolean colorDepth = true;
   boolean mirror = false;
   
   PImage videoImage;

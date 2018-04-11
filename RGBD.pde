@@ -1,6 +1,17 @@
 class RGBD {
+  int width;
+  int height;
   int[] rawDepth;
-  int[] rawPixels;
-  PImage videoImage;    // Return a pimage of the raw thing
-  PImage depthImage;    // Return a pimage of the raw thing
+  int[] rawImage;
+  
+  public PImage videoImage() {
+    PImage image = createImage(width, height, RGB);
+    image.pixels = rawImage;
+    image.updatePixels();
+    return image;
+  };
+  
+  public PImage depthImage() {
+    return videoImage();
+  }
 }
