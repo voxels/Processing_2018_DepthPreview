@@ -17,6 +17,7 @@ class KinectController {
   boolean colorDepth = true;
   boolean mirror = false;
   
+  RGBD depthData;
   PImage videoImage;
   PImage depthImage;
   int[] rawDepth;
@@ -63,18 +64,14 @@ class KinectController {
     return min(rawDepth);
   }
   
-  void updateFrame() {
-    depthImage = kinect.getDepthImage();
-    videoImage = kinect.getVideoImage();
-    rawDepth = kinect.getRawDepth();    
+  RGBD updateFrame() {
+    return new RGBD(kinect, kinect.width, kinect.height);
   }
   
   void drawDepth(PVector origin, PVector size) {
-    updateFrame();
-    image(depthImage, 0, 0);
-    image(videoImage, kinect.width, 0);
-    
-    fill(0);
+    depthData = updateFrame();
+    image(depthData.depthImage(), 0, 0);
+    image(depthData.videoImage(), kinect.width, 0);
   }
   
   // These functions come from: http://graphics.stanford.edu/~mdfisher/Kinect.html
