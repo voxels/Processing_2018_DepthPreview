@@ -12,6 +12,7 @@ int sliceOriginX = 200;
 int sliceOriginY = 250;
 int sliceWidth = 100;
 int sliceHeight = 100;
+int kDiscardStep = 10;
 
 boolean DEBUG = true;
 
@@ -54,25 +55,18 @@ PVector currentTargetSize() {
 // Adjust the angle and the depth threshold min and max
 void keyPressed() {
   if (key == CODED) {
-    if (keyCode == UP) {
-      deviceController.angle++;
-    } else if (keyCode == DOWN) {
-      deviceController.angle--;
-    }
-    deviceController.angle = constrain(deviceController.angle, 0, 30);
-    deviceController.kinect.setTilt(deviceController.angle);
+    
+  } else if (key == '=') {
+    deviceController.tilt(1);
+  } else if (key == '-') {
+    deviceController.tilt(-1);
   } else if (key == 'a') {
-    deviceController.minDepth = constrain(deviceController.minDepth+10, 0, deviceController.maxDepth);
+    deviceController.discard(kDiscardStep, 0);
   } else if (key == 's') {
-    deviceController.minDepth = constrain(deviceController.minDepth-10, 0, deviceController.maxDepth);
+    deviceController.discard(-kDiscardStep, 0);
   } else if (key == 'z') {
-    deviceController.maxDepth = constrain(deviceController.maxDepth+10, deviceController.minDepth, 2047);
+    deviceController.discard(0, kDiscardStep);
   } else if (key =='x') {
-    deviceController.maxDepth = constrain(deviceController.maxDepth-10, deviceController.minDepth, 2047);
-  }
-  
-  if( DEBUG ) {
-    println("TILT: " + deviceController.angle, 10, 20);
-    println("THRESHOLD: [" + deviceController.minDepth + ", " + deviceController.maxDepth + "]", 10, 36);    
+    deviceController.discard(0, -kDiscardStep);
   }
 }

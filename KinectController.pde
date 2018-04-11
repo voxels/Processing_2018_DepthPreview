@@ -72,6 +72,19 @@ class KinectController {
     return new RGBD(kinect, kinect.width, kinect.height);
   }
   
+  void tilt(int delta) {
+    angle += delta;
+    angle = floor(constrain(deviceController.angle, 0, 30));
+    //kinect.setTilt(deviceController.angle);
+    println("TILT: " + angle);
+  }
+  
+  void discard(int minDelta, int maxDelta) {
+    minDepth = constrain(minDepth+minDelta, 0, maxDepth);
+    maxDepth = constrain(maxDepth+maxDelta, minDepth, 2047);
+    println("THRESHOLD: [" + minDepth + ", " + maxDepth + "]");    
+  }
+  
   void drawDepth(PVector sliceOrigin, PVector sliceSize) {
     depthData = updateFrame();
     RGBD slicedData = slicer.slice(depthData,sliceOrigin,sliceSize);
